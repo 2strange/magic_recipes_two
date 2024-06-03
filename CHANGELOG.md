@@ -5,6 +5,9 @@ Our most used recipes for Capistrano-3!
 
 ### ChangeLog:
 
+**Version 0.0.97**
+- fix monit hooks sudo
+
 
 **Version 0.0.96**
 - fix monit hooks
