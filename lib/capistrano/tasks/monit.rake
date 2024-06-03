@@ -149,18 +149,18 @@ namespace :monit do
               if process == "sidekiq"
                 # fetch(:sidekiq_processes)
                 sidekiq_processes_count.times do |idx|
-                  sudo "#{fetch(:monit_bin)} #{command} #{sidekiq_service_name(idx)}"
+                  execute :sudo, "#{fetch(:monit_bin)} #{command} #{sidekiq_service_name(idx)}"
                 end
               elsif process == "thin"
                 fetch(:app_instances).times do |idx|
-                  sudo "#{fetch(:monit_bin)} #{command} #{fetch(:application)}_#{fetch(:stage)}_thin_#{idx}"
+                  execute :sudo, "#{fetch(:monit_bin)} #{command} #{fetch(:application)}_#{fetch(:stage)}_thin_#{idx}"
                 end
               elsif process == "pm2"
                 fetch(:monit_pm2_app_instances).times do |idx|
-                  sudo "#{fetch(:monit_bin)} #{command} #{fetch(:application)}_#{fetch(:stage)}_pm2_#{idx}"
+                  execute :sudo, "#{fetch(:monit_bin)} #{command} #{fetch(:application)}_#{fetch(:stage)}_pm2_#{idx}"
                 end
               else
-                sudo "#{fetch(:monit_bin)} #{command} #{process}"
+                execute :sudo, "#{fetch(:monit_bin)} #{command} #{process}"
               end
             end
           end
