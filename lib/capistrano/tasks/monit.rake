@@ -391,7 +391,7 @@ namespace :deploy do
     invoke "monit:downgrade_system" if fetch(:monit_downgrade_on_deploy, false)
     %w[sidekiq thin].each do |command|
       if fetch(:monit_active) && Array(fetch(:monit_processes)).include?(command)
-        invoke "monit:unmonitor_#{command}"
+        invoke "monit:#{command}:unmonitor"
       end
     end
   end
@@ -407,7 +407,7 @@ namespace :deploy do
   after :finished, :restart_monitoring do
     %w[sidekiq thin].each do |command|
       if fetch(:monit_active) && Array(fetch(:monit_processes)).include?(command)
-        invoke "monit:monitor_#{command}"
+        invoke "monit:#{command}:monitor"
       end
     end
   end

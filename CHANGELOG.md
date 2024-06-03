@@ -6,6 +6,10 @@ Our most used recipes for Capistrano-3!
 ### ChangeLog:
 
 
+**Version 0.0.96**
+- fix monit hooks
+
+
 **Version 0.0.95**
 - improve **monit** helper
 - removed monit `website2` and `website3`! .. replaced with `monit_websites_to_check` which is an array of sites to check
