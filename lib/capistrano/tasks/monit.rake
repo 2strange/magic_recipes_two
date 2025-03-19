@@ -316,9 +316,9 @@ end
 
 
 
-def monit_alert
+def monit_alert(cycles = 15) 
   if fetch(:monit_use_slack, false)
-    "exec #{fetch(:monit_slack_bin_path)} and repeat every 3 cycles"
+    "exec #{fetch(:monit_slack_bin_path)} and repeat every #{cycles} cycles"
   else
     "alert"
   end
