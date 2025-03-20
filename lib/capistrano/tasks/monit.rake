@@ -13,7 +13,7 @@ namespace :load do
     set :monit_idfile,                -> { '/var/lib/monit/id' }
     set :monit_statefile,             -> { '/var/lib/monit/state' }
     ## Status
-    set :monit_active,                -> { true }
+    set :monit_active,                -> { false }
     set :monit_main_rc,               -> { true }
     # set :monit_processes,             -> { %w[nginx pm2 postgresql pwa redis sidekiq thin website website_checks file_checks] }
     set :monit_processes,             -> { %w[nginx postgresql thin website] }
@@ -21,7 +21,7 @@ namespace :load do
     ## Mailer
     set :monit_mail_server,           -> { "smtp.gmail.com" }
     set :monit_mail_port,             -> { 587 }
-    set :monit_mail_authentication,   -> { false } # SSLAUTO|SSLV2|SSLV3|TLSV1|TLSV11|TLSV12
+    set :monit_mail_authentication,   -> { "AUTO" } # SSLAUTO|SSLV2|SSLV3|TLSV1|TLSV11|TLSV12
     set :monit_mail_username,         -> { "foo@example.com" }
     set :monit_mail_password,         -> { "secret" }
     set :monit_mail_to,               -> { "foo@example.com" }
