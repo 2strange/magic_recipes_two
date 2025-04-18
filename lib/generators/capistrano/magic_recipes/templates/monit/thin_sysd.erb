@@ -1,6 +1,6 @@
 # Monit configuration for THIN :  <%= fetch(:application) %>  (<%= fetch(:stage) %>)
 <%  fetch(:app_instances, 1).times do |n| %>
-  check process <%= fetch(:application) %>_<%= fetch(:stage) %>_thin_<%= n %> with pidfile <%= deploy_to %>/shared/pids/thin_<%= fetch(:application) %>_<%= fetch(:stage) %>.<%= n %>.pid
+check process <%= fetch(:application) %>_<%= fetch(:stage) %>_thin_<%= n %> with pidfile <%= deploy_to %>/shared/pids/thin_<%= fetch(:application) %>_<%= fetch(:stage) %>.<%= n %>.pid
     group thin-<%= fetch(:application) %>-<%= fetch(:stage) %>
     start program = "<%=   monit_app_prefixed("thin start -C config/thin_app_#{ fetch(:stage) }.yml -o #{ n }")    %>"
     stop program = "<%=    monit_app_prefixed("thin stop -C config/thin_app_#{ fetch(:stage) }.yml -o #{ n }")     %>"

@@ -355,7 +355,7 @@ def monit_alert(cycles = 15)
     cmds << "exec #{fetch(:monit_slack_bin_path)} and repeat every #{cycles} cycles"
   end
   cmds << "alert" if cmds.empty?
-  cmds.join("\n                ")
+  cmds.join("\n        ")
 end
 
 

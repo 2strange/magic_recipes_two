@@ -9,15 +9,15 @@
 # Check PWA domains for <%= fetch(:application) %> [<%= fetch(:stage) %>]
 <% domain_list.uniq.each do |domain| %>
 check host <%= domain %> with address <%= domain %>
-  if failed 
-  <% if fetch(:pwa_use_ssl) %>
-    port 443
-    type TCPSSL
-    protocol https
-  <% else %>
-    port 80
-    protocol http
-  <% end %>
-    with timeout 13 seconds for 5 cycles 
-  then <%= monit_alert %>
+    if failed 
+    <% if fetch(:pwa_use_ssl) %>
+      port 443
+      type TCPSSL
+      protocol https
+    <% else %>
+      port 80
+      protocol http
+    <% end %>
+      with timeout 13 seconds for 5 cycles 
+    then <%= monit_alert %>
 <% end %>

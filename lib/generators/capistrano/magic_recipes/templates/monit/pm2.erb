@@ -1,6 +1,6 @@
 # Monit configuration for PM2 :  <%= fetch(:application) %>  (<%= fetch(:stage) %>)
 <%  fetch(:monit_pm2_app_instances, 1).times do |n| %>
-  check process <%= fetch(:application) %>_<%= fetch(:stage) %>_pm2_<%= n %> with pidfile <%= fetch(:monit_pm2_pid_path) %>/<%= fetch(:monit_pm2_app_name) %>-<%= n %>.pid
+check process <%= fetch(:application) %>_<%= fetch(:stage) %>_pm2_<%= n %> with pidfile <%= fetch(:monit_pm2_pid_path) %>/<%= fetch(:monit_pm2_app_name) %>-<%= n %>.pid
     group pm2-<%= fetch(:application) %>-<%= fetch(:stage) %>
     start program = "<%= monit_pm2_prefixed("pm2 restart #{fetch(:monit_pm2_start_script)} --env #{fetch(:monit_pm2_stage)}") %>"
     stop program = "<%= monit_pm2_prefixed("pm2 stop #{fetch(:monit_pm2_start_script)} --env #{fetch(:monit_pm2_stage)}") %>"
@@ -18,18 +18,18 @@
 <% if fetch(:monit_pm2_check_website, false) %>
 # Check website for pm2: <%= fetch(:application) %> [<%= fetch(:stage) %>]
 check host "<%= fetch(:monit_pm2_website_name).gsub(/\s+/,'-').gsub(/_/,'-').gsub(/:/,'-').gsub(/--+/,'-') %>" with address <%= fetch(:monit_pm2_website_url) %>
-  <% if fetch(:monit_pm2_website_ssl) %>if failed port 443 protocol https and certificate valid > 2 days then <%= monit_alert %><% end %>
-  if failed 
-  <% if fetch(:monit_pm2_website_ssl) %>
-    port 443
-    type TCPSSL
-    protocol https
-  <% else %>
-    port 80
-    protocol http
-  <% end %>
-    status = 200
-    with timeout 13 seconds for 5 cycles 
-  then <%= monit_alert %>
+    <% if fetch(:monit_pm2_website_ssl) %>if failed port 443 protocol https and certificate valid > 2 days then <%= monit_alert %><% end %>
+    if failed 
+    <% if fetch(:monit_pm2_website_ssl) %>
+      port 443
+      type TCPSSL
+      protocol https
+    <% else %>
+      port 80
+      protocol http
+    <% end %>
+      status = 200
+      with timeout 13 seconds for 5 cycles 
+    then <%= monit_alert %>
 
 <% end %>
