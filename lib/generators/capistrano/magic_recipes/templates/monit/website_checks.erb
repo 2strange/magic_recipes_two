@@ -27,7 +27,7 @@ check host "<%= that[:name] %>" with address <%= that[:domain] %>
     <% end %>
         with timeout <%= that[:timeout] || 42 %> seconds
         for <%= that[:cycles] || 3 %> cycles 
-    then <%= monit_alert %>
+    then<%= monit_alert %>
 
 <% end %>
 
