@@ -8,7 +8,7 @@ check host "<%= that[:name] %>" with address <%= that[:domain] %>
         and certificate valid > 5 days  
         for <%= that[:cycles] || 3 %> cycles 
         then <%= monit_alert(55) %>
-        every "* 8,20 * * *"
+        # every "* 8,20 * * *"
     <% end %>
     if failed 
     <% if that[:ssl] %>
