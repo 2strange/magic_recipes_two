@@ -92,6 +92,10 @@ namespace :load do
     set :monit_use_slack,             -> { false }
     set :monit_slack_webhook,         -> { "" } # your Slack webhook URL
     set :monit_slack_bin_path,        -> { "/etc/monit/alert_slack.sh" }
+
+    # m/Monit API: Sendet Benachrichtigungen via m/Monit API
+    set :monit_event_api_url,         -> { false }
+    set :monit_event_api_bin_path,    -> { "/etc/monit/alert_event.sh" }
     
   end
 end
@@ -105,6 +109,15 @@ namespace :monit do
     end
   end
   # after "deploy:install", "monit:install"
+
+
+  desc 'Upload alert_event.sh for Monit script to server'
+  task :configure_event_script do
+    on roles fetch(:monit_roles) do
+      monit_config 'alert_event', "#{ fetch(:monit_event_api_bin_path) }"
+      execute :sudo, "chmod +x  #{ fetch(:monit_event_api_bin_path) }"
+    end
+  end
 
   desc "Setup all Monit configuration"
   task :setup do
@@ -120,6 +133,12 @@ namespace :monit do
       # invoke "monit:configure_website"
       %w[nginx pm2 postgresql pwa redis sidekiq sidekiq_six thin thin_sysd website website_checks file_checks].each do |command|
         invoke "monit:#{command}:configure" if Array(fetch(:monit_processes)).include?(command)
+      end
+      if fetch(:monit_use_slack, false)
+        invoke "slack:configure"
+      end
+      if fetch(:monit_event_api_url, false)
+        invoke "monit:configure_event_script"
       end
       if fetch(:monit_webclient, false) && fetch(:monit_webclient_domain, false)
         invoke "nginx:monit:add"
@@ -211,7 +230,7 @@ namespace :monit do
   
   
   namespace :slack do
-    desc 'Downgrade MONIT to 5.16 (fix action problem)'
+    desc 'Upload Monit Slack config file (app specific)'
     task :configure do
       on roles :db do
         on release_roles fetch(:monit_roles) do |role|
@@ -316,12 +335,27 @@ end
 
 
 
-def monit_alert(cycles = 15) 
-  if fetch(:monit_use_slack, false)
-    "exec #{fetch(:monit_slack_bin_path)} and repeat every #{cycles} cycles"
-  else
-    "alert"
+# Monit alert command
+def monit_alert(cycles = 15)
+  # if fetch(:monit_event_api_url, false)
+  #   # If event API is enabled, use event API alert command
+  #   "exec #{fetch(:monit_event_api_bin_path)} and repeat every 3 cycles"
+  # elsif fetch(:monit_use_slack, false)
+  #   # If slack is enabled, use slack alert command
+  #   "exec #{fetch(:monit_slack_bin_path)} and repeat every #{cycles} cycles"
+  # else
+  #   # Default alert command
+  #   "alert"
+  # end
+  cmds = []
+  if fetch(:monit_event_api_url, false)
+    cmds << "exec #{fetch(:monit_event_api_bin_path)} and repeat every 3 cycles"
   end
+  if fetch(:monit_use_slack, false)
+    cmds << "exec #{fetch(:monit_slack_bin_path)} and repeat every #{cycles} cycles"
+  end
+  cmds << "alert" if cmds.empty?
+  cmds.join("\n")
 end
 
 

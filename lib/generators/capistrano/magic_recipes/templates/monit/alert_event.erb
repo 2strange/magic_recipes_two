@@ -1,0 +1,14 @@
+#!/bin/sh
+
+curl -X POST "<%= fetch(:monit_event_api_url) %>" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"event\": {
+      \"service\": \"$SERVICE\",
+      \"event\": \"$EVENT\",
+      \"host\": \"$HOST\",
+      \"action\": \"$ACTION\",
+      \"description\": \"$DESCRIPTION\",
+      \"date\": \"$DATE\"
+    }
+  }"
