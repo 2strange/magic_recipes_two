@@ -83,6 +83,11 @@ namespace :load do
     set :monit_pm2_website_url,       -> { "example.com" }
     set :monit_pm2_website_ssl,       -> { false }
     
+    set :monit_max_load_avg,          -> { 2 }
+    set :monit_max_memory_percent,    -> { 75 }
+    set :monit_max_cpu_percent,       -> { 75 }
+    set :monit_max_hdd_percent,       -> { 75 }
+
     
     ## Check files
     set :monit_files_to_check,        -> { [] }
