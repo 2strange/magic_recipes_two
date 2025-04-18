@@ -347,7 +347,7 @@ def monit_alert(cycles = 15)
   #   # Default alert command
   #   "alert"
   # end
-  cmds = []
+  cmds = [""] # add empty string to break line
   if fetch(:monit_event_api_url, false)
     cmds << "exec #{fetch(:monit_event_api_bin_path)} and repeat every 3 cycles"
   end
@@ -355,7 +355,7 @@ def monit_alert(cycles = 15)
     cmds << "exec #{fetch(:monit_slack_bin_path)} and repeat every #{cycles} cycles"
   end
   cmds << "alert" if cmds.empty?
-  cmds.join("\n")
+  cmds.join("\n                ")
 end
 
 
