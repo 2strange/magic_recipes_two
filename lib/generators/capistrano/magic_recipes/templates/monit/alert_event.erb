@@ -4,11 +4,14 @@ curl -X POST "<%= fetch(:monit_event_api_url) %>" \
   -H "Content-Type: application/json" \
   -d "{
     \"event\": {
-      \"service\": \"$SERVICE\",
-      \"event\": \"$EVENT\",
-      \"host\": \"$HOST\",
-      \"action\": \"$ACTION\",
-      \"description\": \"$DESCRIPTION\",
-      \"date\": \"$DATE\"
+      \"service\": \"$MONIT_SERVICE\",
+      \"event\": \"$MONIT_EVENT\",
+      \"host\": \"$MONIT_HOST\",
+      \"action\": \"$MONIT_ACTION\",
+      \"description\": \"$MONIT_DESCRIPTION\",
+      \"date\": \"$MONIT_DATE\",
+      \"process_memory\": \"$MONIT_PROCESS_MEMORY\",
+      \"process_cpu_percent\": \"$MONIT_PROCESS_CPU_PERCENT\",
+      \"program_status\": \"$MONIT_PROGRAM_STATUS\"
     }
   }"
