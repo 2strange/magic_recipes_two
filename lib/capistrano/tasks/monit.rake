@@ -135,7 +135,7 @@ namespace :monit do
         invoke "monit:#{command}:configure" if Array(fetch(:monit_processes)).include?(command)
       end
       if fetch(:monit_use_slack, false)
-        invoke "slack:configure"
+        invoke "monit:slack:configure"
       end
       if fetch(:monit_event_api_url, false)
         invoke "monit:configure_event_script"
