@@ -11,13 +11,13 @@
 check host <%= domain %> with address <%= domain %>
     if failed 
     <% if fetch(:pwa_use_ssl) %>
-      port 443
-      type TCPSSL
-      protocol https
+        port 443
+        type TCPSSL
+        protocol https
     <% else %>
-      port 80
-      protocol http
+        port 80
+        protocol http
     <% end %>
-      with timeout 13 seconds for 5 cycles 
+        with timeout 13 seconds for 5 cycles 
     then <%= monit_alert %>
 <% end %>

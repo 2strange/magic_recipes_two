@@ -44,9 +44,9 @@ set alert <%= fetch(:monit_mail_to) %><%= Array( fetch(:monit_ignore, nil) ).cou
 
 <% if fetch(:monit_webclient) %>
 set httpd port <%= fetch(:monit_http_port) %>
-		<% if fetch(:monit_webclient_use_ssl, false) %>
+        <% if fetch(:monit_webclient_use_ssl, false) %>
     allow 127.0.0.1
-		<% end %>
+        <% end %>
     allow <%= fetch(:monit_http_username) %>:<%= fetch(:monit_http_password) %>
 <% end %>
 

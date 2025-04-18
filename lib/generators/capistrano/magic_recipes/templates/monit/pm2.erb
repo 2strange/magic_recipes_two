@@ -21,15 +21,15 @@ check host "<%= fetch(:monit_pm2_website_name).gsub(/\s+/,'-').gsub(/_/,'-').gsu
     <% if fetch(:monit_pm2_website_ssl) %>if failed port 443 protocol https and certificate valid > 2 days then <%= monit_alert %><% end %>
     if failed 
     <% if fetch(:monit_pm2_website_ssl) %>
-      port 443
-      type TCPSSL
-      protocol https
+        port 443
+        type TCPSSL
+        protocol https
     <% else %>
-      port 80
-      protocol http
+        port 80
+        protocol http
     <% end %>
-      status = 200
-      with timeout 13 seconds for 5 cycles 
+        status = 200
+        with timeout 13 seconds for 5 cycles 
     then <%= monit_alert %>
 
 <% end %>

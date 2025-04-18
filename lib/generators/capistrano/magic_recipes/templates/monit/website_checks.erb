@@ -3,30 +3,30 @@
 check host "<%= that[:name] %>" with address <%= that[:domain] %>
     <% if that[:ssl] %>
     if failed 
-      port 443 protocol https 
-      with timeout <%= that[:timeout] || 42 %> seconds 
-      and certificate valid > 5 days  
-      for <%= that[:cycles] || 3 %> cycles 
-      then <%= monit_alert(55) %>
-      every "* 8,20 * * *"
+        port 443 protocol https 
+        with timeout <%= that[:timeout] || 42 %> seconds 
+        and certificate valid > 5 days  
+        for <%= that[:cycles] || 3 %> cycles 
+        then <%= monit_alert(55) %>
+        every "* 8,20 * * *"
     <% end %>
     if failed 
     <% if that[:ssl] %>
-      port 443
-      type TCPSSL
-      protocol https
+        port 443
+        type TCPSSL
+        protocol https
     <% else %>
-      port 80
-      protocol http
+        port 80
+        protocol http
     <% end %>
     <% if that[:check_content] %>
-      request "<%= that[:path] || '/' %>"
-      content = "<%= that[:content] %>"
+        request "<%= that[:path] || '/' %>"
+        content = "<%= that[:content] %>"
     <% else %>
-      status = 200
+        status = 200
     <% end %>
-      with timeout <%= that[:timeout] || 42 %> seconds
-      for <%= that[:cycles] || 3 %> cycles 
+        with timeout <%= that[:timeout] || 42 %> seconds
+        for <%= that[:cycles] || 3 %> cycles 
     then <%= monit_alert %>
 
 <% end %>
