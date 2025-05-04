@@ -1,0 +1,6 @@
+# Check folders for <%= fetch(:application) %> [<%= fetch(:stage) %>]
+<% monit_folders_list.each do |that| %>
+check directory "<%= that[:name] %>" with path <%= that[:path] %>
+    if size > <%= that[:max_size].to_i %> GB then <%= monit_alert(55) %>
+    
+<% end %>

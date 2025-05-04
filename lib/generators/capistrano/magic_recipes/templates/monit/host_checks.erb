@@ -1,0 +1,7 @@
+# Check additional hosts for <%= fetch(:application) %> [<%= fetch(:stage) %>]
+<% monit_hosts_list.each do |that| %>
+check host "<%= that[:name] %>" with address <%= that[:host] %>
+    if failed port <%= that[:port] %> protocol <%= that[:protocol] %> then <%= monit_alert(that[:cycles]) %>
+
+<% end %>
+
